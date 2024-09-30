@@ -1,0 +1,8 @@
+[project]
+name = "PLACEHOLDER"
+version = "0.1.0"
+description = ""
+authors = []
+dependencies = []
+requires-python = "==3.13.*"
+readme = "README.md"
