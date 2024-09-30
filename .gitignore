@@ -6,7 +6,12 @@ logs
 **.idea/**
 .idea
 .idea/
-.vscode/
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # Runtime data
 pids
