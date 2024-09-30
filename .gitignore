@@ -6,7 +6,14 @@ logs
 **.idea/**
 .idea
 .idea/
-.vscode/
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+### Zed ###
+!.zed/settings.json
 
 # Runtime data
 pids
@@ -122,6 +129,8 @@ ENV/
 .mypy_cache/
 # PDM
 .pdm-python
+# Linting
+.ruff_cache
 
 # Artifacts
 media/
