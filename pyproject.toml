@@ -3,7 +3,11 @@ name = "PLACEHOLDER"
 version = "0.1.0"
 description = ""
 authors = []
-dependencies = []
+dependencies = [
+    "Django>=5.1.1",
+    "python-dotenv>=1.0.1",
+    "psycopg2>=2.9.9",
+]
 requires-python = "==3.12.*"
 readme = "README.md"
 
@@ -19,6 +23,7 @@ lint = [
 test = [
     "pytest>=8.3.3",
     "pytest-mock>=3.14.0",
+    "pytest-django>=4.9.0",
 ]
 
 [tool.pytest.ini_options]
