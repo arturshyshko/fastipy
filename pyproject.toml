@@ -15,6 +15,10 @@ readme = "README.md"
 [tool.pdm]
 distribution = false
 
+[tool.pdm.scripts]
+start = "python manage.py runserver 0.0.0.0:8000"
+test = "pytest"
+
 [tool.pdm.dev-dependencies]
 lint = [
     "ruff>=0.6.8",
