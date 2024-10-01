@@ -80,13 +80,29 @@ TEMPLATES = [
 WSGI_APPLICATION = "placeholder.wsgi.application"
 
 
-# Database
+################ DATABASE SETUP.
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DATABASE_CONN_MAX_AGE = 0
+if APP_ENV in (Environment.STG, Environment.PROD):
+    DATABASE_CONN_MAX_AGE = 600
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DATABASE_NAME", "placeholder"),
+        "USER": os.getenv("DATABASE_USER", "placeholder"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD", ""),
+        "HOST": os.getenv("DATABASE_HOST", ""),
+        "PORT": os.getenv("DATABASE_PORT", "5432"),
+        "CONN_MAX_AGE": DATABASE_CONN_MAX_AGE,
+        "OPTIONS": {
+            "application_name": "placeholder-default",
+            "connect_timeout": 10,
+        },
+        "TEST": {
+            "NAME": "placeholdertest",
+        },
     }
 }
 
