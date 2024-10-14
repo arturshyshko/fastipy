@@ -1,0 +1,4 @@
+# Don't include .env file in built images, not to override prod configs with local env.
+.env
+# Don't include virtualenv not to mess up volumes.
+.venv
