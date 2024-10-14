@@ -53,9 +53,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # 3rd party apps.
+    "rest_framework",
     # Our apps.
     "core.apps.CoreConfig",
     "authentication.apps.AuthenticationConfig",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
@@ -135,6 +138,20 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+################ API settings.
+DRF_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
+if APP_ENV not in (Environment.PROD,):  # Disable browsable API in prod.
+    DRF_RENDERER_CLASSES = DRF_RENDERER_CLASSES + ("rest_framework.renderers.BrowsableAPIRenderer",)
+
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": DRF_RENDERER_CLASSES,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "api.utils.pagination.PageNumberPagination",
+    "EXCEPTION_HANDLER": "api.utils.exceptions.placeholder_exception_handler",
+}
 
 
 # Internationalization
