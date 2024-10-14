@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # 3rd party apps.
     "rest_framework",
+    "rest_framework.authtoken",
     # Our apps.
     "core.apps.CoreConfig",
     "authentication.apps.AuthenticationConfig",
@@ -147,6 +148,7 @@ if APP_ENV not in (Environment.PROD,):  # Disable browsable API in prod.
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": DRF_RENDERER_CLASSES,
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "api.utils.authentication.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_PAGINATION_CLASS": "api.utils.pagination.PageNumberPagination",
