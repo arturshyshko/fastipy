@@ -16,6 +16,10 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from core.middleware.logging import correlation_id
+
+from .logging import get_logging_config
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,12 +35,16 @@ class Environment(enum.StrEnum):
 
 
 APP_ENV = Environment(os.getenv("ENVIRONMENT", "production"))
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 ALLOWED_HOSTS = []
 
 # Application definition
+# Logging.
+CORRELATION_ID_HEADER = "X-Request-ID"
+LOGGING = get_logging_config(log_level=LOG_LEVEL, correlation_id_var=correlation_id)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -46,6 +54,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Our apps.
+    "core.apps.CoreConfig",
     "authentication.apps.AuthenticationConfig",
 ]
 
@@ -53,6 +62,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "core.middleware.logging.CorrelationIDMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
