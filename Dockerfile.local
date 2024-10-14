@@ -1,0 +1,31 @@
+# https://pdm-project.org/latest/usage/advanced/#use-pdm-in-a-multi-stage-dockerfile
+FROM python:3.12-slim
+RUN apt-get -y update; apt-get -y install curl libpq-dev gcc
+
+ENV \
+    # Display better logs for seg faults
+    PYTHONFAULTHANDLER=1 \
+    # Don't buffer logs and pipe them right into dockerfile, might slow down prod, so only set for local
+    PYTHONUNBUFFERED=1 \
+    # Don't create cache folder for pip deps
+    PIP_NO_CACHE_DIR=off \
+    # Disable pip upgrade warning
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    PDM_CHECK_UPDATE=false
+
+# Install pdm.
+RUN pip install -U pdm
+
+WORKDIR /app
+COPY pdm.lock pyproject.toml /app/
+# Installing all deps, including test ones, as its a local dockerfile.
+RUN pdm install -p /app --check -g
+ENV PYTHONPATH="/app/.venv/bin"
+
+COPY . .
+
+# Expose the port Django will run on
+EXPOSE 8000
+# Run the Django application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
