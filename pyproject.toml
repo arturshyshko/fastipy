@@ -21,6 +21,7 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "placeholder.settings_test"
 addopts = "-rfE --last-failed"
 testpaths = ["tests"]
 
