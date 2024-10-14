@@ -1,0 +1,59 @@
+services:
+  web:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      web_migrate:
+        condition: service_completed_successfully
+    env_file:
+      - ./.env
+    environment:
+      - DATABASE_HOST=db
+
+  web_migrate:
+    build:
+      dockerfile: Dockerfile
+    command: ["python", "manage.py", "migrate"]
+    volumes:
+      - ./:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./.env
+    environment:
+      - DATABASE_HOST=db
+    restart: no
+
+  db:
+    image: postgres:17.5-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGUSER=placeholder
+      - POSTGRES_USER=placeholder
+      - POSTGRES_DB=placeholder
+
+  # Just for running tests in CI/CD, use "docker compose --profile test up test --force-recreate" command.
+  test:
+    profiles: ["test"]
+    extends:
+      service: web
+    command: ["pytest"]
+
+volumes:
+  pgdata:
