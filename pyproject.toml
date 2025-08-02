@@ -8,7 +8,11 @@ requires-python = "==3.13.*"
 readme = "README.md"
 
 [dependency-groups]
-dev = ["isort>=6.0.1", "ruff>=0.12.7"]
+dev = ["isort>=6.0.1", "pytest>=8.4.1", "pytest-mock>=3.14.1", "ruff>=0.12.7"]
+
+[tool.pytest.ini_options]
+addopts = "-rfE --last-failed"
+testpaths = ["tests"]
 
 [tool.ruff]
 target-version = "py313"
