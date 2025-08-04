@@ -5,6 +5,7 @@ description = ""
 authors = []
 dependencies = [
     "django>=5.2.4",
+    "djangorestframework>=3.16.0",
     "psycopg2-binary>=2.9.10",
     "python-dotenv>=1.1.1",
 ]
@@ -14,6 +15,7 @@ readme = "README.md"
 [dependency-groups]
 dev = [
     "isort>=6.0.1",
+    "markdown>=3.8.2",
     "pytest>=8.4.1",
     "pytest-django>=4.11.1",
     "pytest-mock>=3.14.1",
