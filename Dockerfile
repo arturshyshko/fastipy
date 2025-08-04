@@ -20,10 +20,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 FROM python:3.13-slim-bookworm
 RUN useradd --create-home --shell /bin/bash worker
 USER worker
-WORKDIR /app
+WORKDIR /app/src
 
 COPY --from=builder --chown=worker:worker /app /app
-COPY . /app
+COPY ./src /app/src
 
 ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONPATH="/app/.venv/bin"
